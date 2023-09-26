@@ -1,10 +1,6 @@
 # pedigreeReconstruction
 Code accompanying the manuscript entitled: "Advances in wildlife abundance estimation using pedigree reconstruction"
 
-Elias Rosenblatt
-
-2023-09-26
-
 ## Authors
 
 Elias Rosenblatt, Rubenstein School of Environment and Natural Resources,University of Vermont, 81 Carrigan Drive, Burlington, VT 05405 USA
