@@ -40,7 +40,9 @@ spatial.samp.faster <- function(begin.sample, points = points.t, sample.grid = s
 
   #Step 4 - select grid cells for sampling
   if(begin.sample==TRUE) #First year of sampling?
-  {for(s in 1:sims){ #Loop through iterations of simulation
+  {
+    pop.spatial.samp.list <- list() #Creates storage
+    for(s in 1:sims){ #Loop through iterations of simulation
     for(w in 1:length(spatial.sample))  {   #Loop through sampling intensity
       #Survey cells with probabilities based on weighted by abundance
       if(stratified == TRUE) #If sampling is weighted by relative abundance...

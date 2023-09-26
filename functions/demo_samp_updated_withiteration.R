@@ -10,7 +10,9 @@ demo.samp.updated.withiteration <- function(begin.sample, sim.samp.list, z, sims
     names(pop.mcp$id) <- pop.mcp@data$id #assign individual ids to mcps
     overlap.SA <- gIntersection(spgeom1 = pop.mcp, spgeom2 = study_area_utm, byid = TRUE,id = pop.mcp@data$id) #Identify animals with MCP that overlap the study area
   if(begin.sample==TRUE) #If this is the first year of sampling...
-  {for(s in 1:sims){ #Start loop through iterations of simulation
+  {    
+    pop.samp.list <- list() #Creates storage
+    for(s in 1:sims){ #Start loop through iterations of simulation
     for(w in 1:length(sample))  {   #start nested loop through sampling intensity
     pop.t$Sample.P <- rep(0,nrow(pop.t))
     {for (i in 1:nrow(pop.t)){    #For every animal in the population...
