@@ -2,6 +2,7 @@
 Code accompanying the manuscript entitled: "Advances in wildlife abundance estimation using pedigree reconstruction"
 
 Elias Rosenblatt
+
 2023-09-26
 
 ## Authors
