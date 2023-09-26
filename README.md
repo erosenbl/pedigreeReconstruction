@@ -1,2 +1,112 @@
 # pedigreeReconstruction
-Code accompanying the manuscript entitled: Advances in wildlife abundance estimation using pedigree reconstruction
+Code accompanying the manuscript entitled: "Advances in wildlife abundance estimation using pedigree reconstruction"
+
+author: "Elias Rosenblatt"
+date: "2023-09-26"
+
+## Authors
+
+Elias Rosenblatt, Rubenstein School of Environment and Natural Resources,University of Vermont, 81 Carrigan Drive, Burlington, VT 05405 USA
+
+## Information
+
+Repository Type: Program R scripts and datasets
+
+Year of Origin:  2017
+
+Year of Version: 2023
+
+Version: 1.0.0
+
+## Abstract 
+
+This software release contains two separate R scripts to simulate a spatially-explicit moose population to demonstrate the application of pedigree reconstruction to estimate abundance, following the analysis presented in Rosenblatt et al. *In Review*. There are 8 addition R scripts that program custom functions for this purpose. There are also various data sets that populate location data for these scripts.
+
+## R Scripts
+### Script 1: SimulationCode_Rosenblatt_et_al.R
+
+Data inputs: data/moose_gps_points.RDS; data/moose_HR.RDS; data/moose_relative_locations.RDS; data/Study_Area/StudyDissolve.shp
+
+Function calls: functions/cre_est_updated_spatial.R; functions/cre_est_updated.R; functions/demo_samp_updated_withiteration.R; functions/spatial_samp_faster.R; functions/gOverlap.R; functions/reproduce.R.
+
+Details: R script that runs through the simulation process detailed in Rosenblatt et al. *In Review*. This R script uses radio telemetry, demography, and vital rate data from an intensive study area to simulate a moose population's trajectory over 25 years. During the first 20 years, the simulation develops a population with known parent-offspring relationships. In the final 5 years, two sampling strategies are used to sample individuals and estimate parameters of interest, that in turn allow the estimation of abundance using pedigree reconstruction. These abundance estimates are then compared to the known abundance in the study area of interest, with calculations of coefficient-of-variation, scaled mean error, and scaled root mean squared error. This simulation file generated the results presented in Objectives 1 and 2, and Figures 4-6 in Rosenblatt et al. *In Review*.
+
+Outputs: N/A.
+
+### Script 2: Obj 3_InfluenceOfDensity_8Jun23.R
+
+Data inputs: data/pointsend.16Nov21RDS; data/popend.16Nov21.RDS; data/Study_Area/StudyDissolve.shp
+
+Details: R script that takes population and their location data from the last year of the simulation conducted in SimulationCode_Rosenblatt_et_al.R, and subsets the study area into 9 equally-sized grid cells with varying densities to investigate how differences in density influences the precision and bias of pedigree reconstruction as an abundance estimator. This script generated the findings for Objective 3 and Figure 7 in Rosenblatt et al. *In Review*.
+
+Outputs: N/A
+
+## R Functions
+
+### Function 1: gOverlap.R 
+
+Data inputs: N/A
+
+Details: R function that takes maximum convex polygons (mcp) calculated for two individuals and calculates the proportion of overlap, scaled to the size of the first individual's mcp. Used in the reproduce() function (Function 2).
+
+Outputs: Proportion of home range overlapping that of another individual's.
+
+### Function 2: reproduce.R
+
+Data inputs: N/A
+
+Details: This R function identifies mothers who will reproduce in a given time step (year) of a simulation, and matches them with a male who overlapped in space during the previous breeding season. Offspring are generated and added to the population, with known relationships to its mother and father.
+
+Outputs: N/A
+
+### Function 3: demo_samp_updated_withiteration.R
+
+Data inputs: N/A
+
+Details: This R function to sample proportion of population, with sampling restricted to the study area. As sampled individuals are sampled, they receive a sample value, either indicating that they were never sampled (0), or the sampling year during which they were sampled (1-5). These data are added to a running list of individuals sampled, their covariates, and their known relationships, with objects grouped by simulation number and sample intensity.
+
+Outputs: N/A
+
+### Function 4: spatial.samp.faster.R
+
+Data inputs: N/A
+
+Details: This R function to sample a proportion of pixels across a study area (spatially-based sampling approach), with sampling restricted to the study area. Once pixels are "surveyed", utilization values are generated for each animal, in each pixel. Animals are sampled based on this utilization value, and as individuals are sampled, they receive a sample value, either indicating that they were never sampled (0), or the sampling year during which they were sampled. 
+
+Outputs: N/A
+
+### Function 5: cre_est_updated.R
+
+Data inputs: N/A
+
+Details: This R function summarizes the numbers of sampled, matched, unmatched, and inferred individuals for every simulation/year/sample intensity combination of the simulation conducted in SimulationCode_Rosenblatt_et_al.R  simulation/year/sampling intensity combinations, focused on the population-based sampling approach (sample intensity = proportion of unsampled individuals). These summary metrics are compiled into a dataframe that is used to calculate joint probabilities (pdet and pmatch) and resulting abundance measures in SimulationCode_Rosenblatt_et_al.R.
+
+Outputs: N/A
+
+### Function 6: cre_est_updated_spatial.R
+
+Data inputs: N/A
+
+Details: This R function summarizes the numbers of sampled, matched, unmatched, and inferred individuals for every simulation/year/sample intensity combination of the simulation conducted in SimulationCode_Rosenblatt_et_al.R  simulation/year/sampling intensity combinations, focused on the spatially-based sampling approach (sample intensity = proportion of study area surveyed). These summary metrics are compiled into a dataframe that is used to calculate joint probabilities (pdet and pmatch) and resulting abundance measures in SimulationCode_Rosenblatt_et_al.R.
+
+Outputs: N/A
+
+### Function 7: nHat_est_population.R
+
+Data inputs: Nhat.calc
+
+Details: This R function uses the dataframe created by cre_est_updated.R to calculate joint probabilities (pdet and pmatch) and resulting abundance measures in SimulationCode_Rosenblatt_et_al.R under the population sampling approach.
+
+Outputs: N/A
+
+### Function 8: nHat_est_spatial.R
+
+Data inputs: Nhat.calc.spatial
+
+Details: This R function uses the dataframe created by cre_est_updated_spatial.R to calculate joint probabilities (pdet and pmatch) and resulting abundance measures in SimulationCode_Rosenblatt_et_al.R under the spatial sampling approach.
+
+Outputs: N/A
+
+## References
+
+Rosenblatt, E.R., S. Creel, K. Gieder, J. Murdoch, & T. Donovan. In Review. Advances in wildlife abundance estimation using pedigree reconstruction. Ecology and Evolution.
